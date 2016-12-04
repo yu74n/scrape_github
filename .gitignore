@@ -1,0 +1,4 @@
+*.sh
+*.swp
+*.jl
+__pycache__
