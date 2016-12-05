@@ -1,7 +1,10 @@
 # -*- coding: utf-8 -*-
+import sys
 import scrapy
 import json
 from urllib.parse import urljoin
+sys.path.append("./spiders/github")
+import repo
 
 class GithubSpider(scrapy.Spider):
     name = "github"
@@ -18,4 +21,11 @@ class GithubSpider(scrapy.Spider):
 
     def parse(self, response):
         key = response.url.split("/")[-1]
-        yield json.loads("{ \"%s\": %s }" % (key, response.body.decode('utf-8')))
+        if key == "repos":
+            result = {}
+            re = repo.Repo()
+            result[key] = re.run(json.loads(response.body.decode('utf-8')))
+            yield result
+        else:
+            pass
+            #yield json.loads("{ \"%s\": %s }" % (key, response.body.decode('utf-8')))
