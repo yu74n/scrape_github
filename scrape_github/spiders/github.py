@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 import scrapy
+from scrapy.utils.python import to_unicode
 import json
 from urllib.parse import urljoin
 
@@ -18,4 +19,4 @@ class GithubSpider(scrapy.Spider):
 
     def parse(self, response):
         key = response.url.split("/")[-1]
-        yield json.loads("{ \"%s\": %s }" % (key, response.body.decode('utf-8')))
+        yield json.loads("{ \"%s\": %s }" % (key, to_unicode(response.body)))
